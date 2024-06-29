@@ -297,7 +297,7 @@ class Peer:
             except Exception as e:
                 print(e)
                 self.running = False
-                raise
+                raise 
 
             self.listen_task = asyncio.create_task(self._listen(async_loop))
         else:
@@ -310,14 +310,14 @@ class Peer:
                 except Exception as e:
                     print(e)
                     self.running = False
-                    return
+                    return e
             else:
                 try:
                     client_socket = socket.create_connection((self.host_name, self.port))
                 except Exception as e:
                     print(e)
                     self.running = False
-                    return
+                    return e
             try:
                 client_socket.setblocking(False)
                 client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
@@ -325,7 +325,7 @@ class Peer:
             except Exception as e:
                 print(e)
                 self.running = False
-                return
+                return e
 
         with self.running_lock:
             self.running = True
